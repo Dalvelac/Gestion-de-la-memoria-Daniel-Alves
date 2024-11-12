@@ -1,0 +1,3 @@
+C:/Users/v3rmu/Documents/GitHub/Gestion-de-la-memoria-Daniel-Alves/cmake-build-debug/CMakeFiles/Gestion_de_la_memoria_Daniel_Alves.dir
+C:/Users/v3rmu/Documents/GitHub/Gestion-de-la-memoria-Daniel-Alves/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/v3rmu/Documents/GitHub/Gestion-de-la-memoria-Daniel-Alves/cmake-build-debug/CMakeFiles/rebuild_cache.dir
