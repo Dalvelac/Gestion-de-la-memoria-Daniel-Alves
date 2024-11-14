@@ -24,8 +24,8 @@ Acceder a Google Cloud Shell: Ve a Google Cloud Shell e inicia una sesión.
 
 Instalar el compilador MinGW: Google Cloud Shell está basado en Linux, así que necesitarás instalar MinGW para compilar código de Windows. Ejecuta lo siguiente:
 ```
-      sudo apt-get update
-      sudo apt-get install mingw-w64
+sudo apt-get update
+sudo apt-get install mingw-w64
 ``` 
 
 ## Compilar el programa: Copia el código fuente del programa a un archivo, por ejemplo shared_memory.c, y luego compílalo usando el compilador MinGW:
@@ -41,8 +41,8 @@ Configurar la VM de Ubuntu: Puedes usar VirtualBox o cualquier proveedor de serv
 Instalar el compilador MinGW: Para compilar el código de Windows en Ubuntu, instala MinGW ejecutando:
 
 ```
-      sudo apt-get update
-      sudo apt-get install mingw-w64
+sudo apt-get update
+sudo apt-get install mingw-w64
 ```
 
 Copiar el Código Fuente: Crea un archivo llamado shared_memory.c y pégale el código proporcionado.
