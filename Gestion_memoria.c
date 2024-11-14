@@ -1,39 +1,54 @@
 #ifndef GESTION_MEMORIA_H
 #define GESTION_MEMORIA_H
-#include "Gestion_memoria.c"
-#include <sys/mman.h>
+
+#include <windows.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
+
 #define SIZE 4096
 
 int main() {
+    HANDLE hMapFile;
+    char *shared_memory;
 
-    char *shared_memory = mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-    if (shared_memory == MAP_FAILED) {
-        perror("mmap");
-        exit(EXIT_FAILURE);
+    hMapFile = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, SIZE, NULL);
+    if (hMapFile == NULL) {
+        printf("Could not create file mapping object (%d).\n", GetLastError());
+        return 1;
     }
 
-    pid_t pid = fork();
-
-    if (pid < 0) {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    } else if (pid == 0) {
-        sleep(1);
-        printf("Child reads: %s\n", shared_memory);
-        munmap(shared_memory, SIZE);
-        exit(EXIT_SUCCESS);
-    } else {
-        strcpy(shared_memory, "Hello, child process!");
-        wait(NULL);
-        munmap(shared_memory, SIZE);
+    shared_memory = (char *)MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, SIZE);
+    if (shared_memory == NULL) {
+        printf("Could not map view of file (%d).\n", GetLastError());
+        CloseHandle(hMapFile);
+        return 1;
     }
+
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si);
+    ZeroMemory(&pi, sizeof(pi));
+
+    char command[] = "child_process.exe"; // Example command, replace with actual child executable if different
+
+    if (!CreateProcess(NULL, command, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+        printf("CreateProcess failed (%d).\n", GetLastError());
+        UnmapViewOfFile(shared_memory);
+        CloseHandle(hMapFile);
+        return 1;
+    }
+
+    strcpy(shared_memory, "Hello, child process!");
+
+    WaitForSingleObject(pi.hProcess, INFINITE);
+
+    UnmapViewOfFile(shared_memory);
+    CloseHandle(hMapFile);
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
 
     return 0;
 }
 
-#endif //GESTION_MEMORIA_H
+#endif // GESTION_MEMORIA_H
