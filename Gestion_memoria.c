@@ -1,6 +1,6 @@
 #ifndef GESTION_MEMORIA_H
 #define GESTION_MEMORIA_H
-#include "Gestion_memoria.h"
+#include "Gestion_memoria.c"
 #include <sys/mman.h>
 #include <stdio.h>
 #include <stdlib.h>

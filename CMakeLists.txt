@@ -6,5 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(.)
 
 add_executable(Gestion_de_la_memoria_Daniel_Alves
-    Gestion_memoria.cpp
-    Gestion_memoria.h)
+        Gestion_memoria.c
+)
+
+
